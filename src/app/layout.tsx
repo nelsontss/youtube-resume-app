@@ -71,17 +71,9 @@ export default function RootLayout({
       <body>
         <Providers>
           <div className="flex min-h-screen flex-col">
-            <FullWidthSection>
-              <Navbar />
-            </FullWidthSection>
             <main className="flex-grow">
               {children}
             </main>
-            <FullWidthSection className="bg-neutral">
-              <ContentContainer>
-                <Footer />
-              </ContentContainer>
-            </FullWidthSection>
           </div>
         </Providers>
       </body>

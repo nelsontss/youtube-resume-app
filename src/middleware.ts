@@ -13,6 +13,8 @@ const publicRoutes = [
   "/favicon.ico",        // Exact match for favicon
   "/images/*",           // All routes under /images
   "/public/*",           // All routes under /public
+  "/api/summarize",      // Exact match for summarize API
+  "/coming-soon",        // Exact match for coming soon page
 ]
 
 export default auth(async (req) => {
