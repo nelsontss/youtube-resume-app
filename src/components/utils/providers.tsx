@@ -6,7 +6,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export default function Providers(props: Props) {
+export default function Providers(props: Props) {
   return (
     <SessionProvider>
       {props.children}

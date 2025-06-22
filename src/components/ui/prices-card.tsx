@@ -77,6 +77,7 @@ export default function PricesCard({ prices }: PricesCardProps) {
             <a
                 className="btn btn-primary btn-block "
                 target="_blank"
+                rel="noopener noreferrer"
                 href={subscriptions.find(elem => elem.selected)?.link || '#'}
             >
                 Subscribe

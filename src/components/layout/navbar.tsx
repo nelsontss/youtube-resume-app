@@ -3,7 +3,7 @@ import React from "react";
 import Image from 'next/image'
 import Link from 'next/link'
 import SignInButton from '@/components/auth/signin-button'
-import { ContentContainer } from '@/app/layout'
+import ContentContainer from '@/components/layout/content-container'
 
 export default function Navbar() {
   return (

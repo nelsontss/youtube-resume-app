@@ -17,7 +17,7 @@ async function subscribeToNewsletter(formData: FormData) {
 
   // Simulate API call to save email to database/newsletter service
   // In production, you would integrate with your email service provider
-  console.log("Subscribing email:", email)
+  console.warn("Demo: Subscribing email:", email)
 
   // Simulate processing time
   await new Promise((resolve) => setTimeout(resolve, 1000))

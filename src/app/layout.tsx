@@ -4,8 +4,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/utils/providers";
-import Navbar from "@/components/layout/navbar";
-import Footer from "@/components/layout/footer";
 import { Analytics } from "@vercel/analytics/react"
 import GoogleAnalytics from "@/components/utils/google-analytics";
 
@@ -35,28 +33,6 @@ export const metadata: Metadata = {
   },
 };
 
-type FullWidthSectionProps = {
-  children: React.ReactNode;
-  className?: string;
-}
-
-const FullWidthSection: React.FC<FullWidthSectionProps> = ({ children, className = '' }) => (
-  <div className={`w-full ${className}`}>
-    {children}
-  </div>
-);
-
-type ContentContainerProps = {
-  children: React.ReactNode;
-  className?: string;
-}
-
-const ContentContainer: React.FC<ContentContainerProps> = ({ children, className = '' }) => (
-  <div className={`container mx-auto px-4 sm:px-6 lg:px-8 ${className}`}>
-    {children}
-  </div>
-);
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -80,5 +56,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-export { FullWidthSection, ContentContainer };
