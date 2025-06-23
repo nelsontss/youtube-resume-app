@@ -5,16 +5,30 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Zap } from "lucide-react"
-import ResultsDisplay from "@/components/results-display"
-import { VideoSummary } from "@/types/video"
-import { LoadingBar } from "./loading-bar"
+import ErrorModal from "@/components/error-modal"
+import { LoadingBar } from "@/components/loading-bar"
+import { useVideoContext } from "@/contexts/video-context"
 
 export default function VideoForm() {
-  const [url, setUrl] = useState("")
-  const [isProcessing, setIsProcessing] = useState(false)
-  const [videoData, setVideoData] = useState<VideoSummary | null>(null)
-  const [error, setError] = useState<string | null>(null)
+  const { 
+    url, 
+    setUrl, 
+    isProcessing, 
+    setIsProcessing, 
+    setVideoData, 
+    setError 
+  } = useVideoContext()
+  
   const [showRealButton, setShowRealButton] = useState(false)
+  const [errorModal, setErrorModal] = useState<{
+    isOpen: boolean
+    errorType: 'duration_limit' | 'server_error' | 'unknown'
+    maxAllowedDuration?: string
+    message?: string
+  }>({
+    isOpen: false,
+    errorType: 'unknown'
+  })
 
   const handleShadowButtonClick = () => {
     // Open ad link in new tab
@@ -23,6 +37,38 @@ export default function VideoForm() {
     setTimeout(() => {
       setShowRealButton(true)
     }, 500)
+  }
+
+  const closeErrorModal = () => {
+    setErrorModal({ ...errorModal, isOpen: false })
+    setError(null)
+  }
+
+  // Error type mapping for scalable error handling
+  interface ErrorData {
+    error_type: string
+    message: string
+    max_allowed_duration?: string
+    error?: string
+  }
+  
+  const errorTypeMap: Record<string, (errorData: ErrorData) => typeof errorModal> = {
+    duration_limit: (errorData) => ({
+      isOpen: true,
+      errorType: 'duration_limit',
+      maxAllowedDuration: errorData.max_allowed_duration,
+      message: errorData.message
+    }),
+    server_error: (errorData) => ({
+      isOpen: true,
+      errorType: 'server_error',
+      message: errorData.message
+    }),
+    default: (errorData) => ({
+      isOpen: true,
+      errorType: 'unknown',
+      message: errorData.message || errorData.error || 'Failed to summarize video'
+    })
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -44,7 +90,11 @@ export default function VideoForm() {
 
       if (!response.ok) {
         const errorData = await response.json()
-        throw new Error(errorData.error || 'Failed to summarize video')
+        
+        // Handle errors using scalable error type mapping
+        const errorHandler = errorTypeMap[errorData.error_type] || errorTypeMap.default
+        setErrorModal(errorHandler(errorData))
+        return
       }
 
       const result = await response.json()
@@ -59,11 +109,21 @@ export default function VideoForm() {
       console.error("Error:", err)
     } finally {
       setIsProcessing(false)
+      setShowRealButton(false) // Reset button state after processing
     }
   }
 
   return (
     <div className="space-y-8">
+      {/* Error Modal */}
+      <ErrorModal
+        isOpen={errorModal.isOpen}
+        onClose={closeErrorModal}
+        errorType={errorModal.errorType}
+        maxAllowedDuration={errorModal.maxAllowedDuration}
+        message={errorModal.message}
+      />
+
       {/* Input Form */}
       <Card className="shadow-lg border-0 bg-white">
         <CardHeader>
@@ -117,26 +177,18 @@ export default function VideoForm() {
                 </Button>
               )}
             </div>
-            {error && (
-              <div className="text-red-600 text-sm mt-2">
-                {error}
-              </div>
-            )}
           </form>
         </CardContent>
       </Card>
+      
       {/* Loading Bar */}
-        {isProcessing && <LoadingBar
+      {isProcessing && (
+        <LoadingBar
           isLoading={isProcessing}
           title="Analyzing YouTube Video"
           subtitle="Our AI is processing the content and generating your markdown summary"
-        />}
-      {/* Results Section */}
-      <ResultsDisplay 
-        isProcessing={isProcessing}
-        videoData={videoData}
-        error={error}
-      />
+        />
+      )}
     </div>
   )
 }

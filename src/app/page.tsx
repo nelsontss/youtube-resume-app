@@ -3,7 +3,9 @@ import React from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Youtube, Sparkles, FileText, Zap } from "lucide-react"
-import VideoForm from "@/components/video-form"
+import { VideoProvider } from "@/contexts/video-context"
+import VideoFormInput from "@/components/video-form-input"
+import VideoResults from "@/components/video-results"
 import Script from "next/script"
 import Banner from "@/components/banner"
 
@@ -48,11 +50,21 @@ export default async function YouTubeSummarizer() {
             </div>
 
             {/* Input Form and Results */}
-            <VideoForm />
+            <VideoProvider>
+              <div className="space-y-8">
+                <VideoFormInput />
+                {/* Sidebar with Ads - Mobile/Tablet View */}
+                <div className="lg:hidden space-y-6">
+                  {/* Sidebar Ad 1 */}
+                  <Banner bannerKey="7554d80bb458191c9d5e609fe384750c" height={60} width={468} />
+                </div>
+                <VideoResults />
+              </div>
+            </VideoProvider>
           </div>
 
-          {/* Sidebar with Ads */}
-          <div className="lg:col-span-1 space-y-6 w-[300px]">
+          {/* Sidebar with Ads - Desktop View */}
+          <div className="hidden lg:block lg:col-span-1 space-y-6 w-[300px]">
             {/* Sidebar Ad 1 */}
             <Banner bannerKey="d342950369c684af192e3b3c81921af8" height={250} width={300} />
             {/* Features */}
@@ -90,9 +102,6 @@ export default async function YouTubeSummarizer() {
                 </div>
               </CardContent>
             </Card>
-            {
-              
-            }
           </div>
         </div>
 

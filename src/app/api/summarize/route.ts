@@ -31,11 +31,34 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({ video_url }),
     })
 
-    if (!response.ok) {
-      throw new Error(`Backend HTTP error! status: ${response.status}`)
-    }
-
     const data = await response.json()
+
+    if (!response.ok) {
+      // Handle different error status codes
+      if (response.status === 400) {
+        // Video too long error
+        return NextResponse.json({
+          error: 'Video duration limit exceeded',
+          error_type: 'duration_limit',
+          max_allowed_duration: data.max_allowed_duration || 'unknown',
+          message: data.message || 'The video is too long to process'
+        }, { status: 400 })
+      } else if (response.status === 500) {
+        // Backend server error
+        return NextResponse.json({
+          error: 'Backend server error',
+          error_type: 'server_error',
+          message: data.message || 'Internal server error occurred'
+        }, { status: 500 })
+      } else {
+        // Other errors
+        return NextResponse.json({
+          error: 'Backend error',
+          error_type: 'unknown',
+          message: data.message || `HTTP error! status: ${response.status}`
+        }, { status: response.status })
+      }
+    }
     
     // Return the data in the expected format
     return NextResponse.json({
