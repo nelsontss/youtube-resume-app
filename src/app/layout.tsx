@@ -6,6 +6,7 @@ import "./globals.css";
 import Providers from "@/components/utils/providers";
 import { Analytics } from "@vercel/analytics/react"
 import GoogleAnalytics from "@/components/utils/google-analytics";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -43,6 +44,7 @@ export default function RootLayout({
       <head>
         <GoogleAnalytics />
         <Analytics />
+        <Script data-cfasync="false" type='text/javascript' src='//pl26994585.profitableratecpm.com/72/df/2f/72df2ff5cc6a33cc021c764605454547.js' />
       </head>
       <body>
         <Providers>

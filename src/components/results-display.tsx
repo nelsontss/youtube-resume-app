@@ -71,7 +71,7 @@ export default function ResultsDisplay({ isProcessing, videoData, error }: Resul
   // Show results
   if (videoData) {
     return (
-      <Card className="shadow-lg border-0 bg-white">
+      <Card className="shadow-lg border-0 bg-white" data-results-display="true">
         <CardHeader>
           <div className="flex items-start justify-between">
             <div className="space-y-2 flex-1">

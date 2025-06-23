@@ -2,23 +2,24 @@ import { auth } from "@/auth"
 import { NextResponse } from "next/server"
 
 // Define public routes that don't require authentication
-const publicRoutes = [
-  "/",                    // Exact match for root
-  "/app/pricing",
-  "/auth/signin",        // Exact match for login
-  "/register",           // Exact match for register
-  "/api/auth/*",         // All routes under /api/auth
-  "/api/webhook/*",      // All routes under /api/webhook
-  "/_next/*",            // All routes under /_next
-  "/favicon.ico",        // Exact match for favicon
-  "/images/*",           // All routes under /images
-  "/public/*",           // All routes under /public
-  "/api/summarize",      // Exact match for summarize API
-  "/coming-soon",        // Exact match for coming soon page
-]
+// const publicRoutes = [
+//   "/",                    // Exact match for root
+//   "/app/pricing",
+//   "/auth/signin",        // Exact match for login
+//   "/register",           // Exact match for register
+//   "/api/auth/*",         // All routes under /api/auth
+//   "/api/webhook/*",      // All routes under /api/webhook
+//   "/_next/*",            // All routes under /_next
+//   "/favicon.ico",        // Exact match for favicon
+//   "/images/*",           // All routes under /images
+//   "/public/*",           // All routes under /public
+//   "/api/summarize",      // Exact match for summarize API
+//   "/coming-soon",        // Exact match for coming soon page
+// ]
 
-export default auth(async (req) => {
-  const { nextUrl } = req
+export default auth(async () => {
+  return NextResponse.next()
+  /*const { nextUrl } = req
 
   // Check if the route is public
   const isPublicRoute = publicRoutes.some((route) => {
@@ -49,8 +50,8 @@ export default auth(async (req) => {
   // }
 
   // Allow access to private routes for authenticated users
-  return NextResponse.next()
-})
+  return NextResponse.next()*/
+  })
 
 // Configure which routes to run middleware on
 export const config = {
