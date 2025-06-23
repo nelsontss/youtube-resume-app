@@ -19,7 +19,6 @@ const publicRoutes = [
 
 export default auth(async (req) => {
   const { nextUrl } = req
-  const isLoggedIn = !!((await auth())?.user)
 
   // Check if the route is public
   const isPublicRoute = publicRoutes.some((route) => {
@@ -41,13 +40,13 @@ export default auth(async (req) => {
     return NextResponse.next()
   }
 
-  // If the user is not logged in and trying to access a private route,
-  // redirect them to the login page
-  if (!isLoggedIn) {
-    const loginUrl = new URL("/auth/signin", nextUrl.origin)
-    loginUrl.searchParams.set("callbackUrl", nextUrl.pathname)
-    return Response.redirect(loginUrl)
-  }
+  // // If the user is not logged in and trying to access a private route,
+  // // redirect them to the login page
+  // if (!isLoggedIn) {
+  //   const loginUrl = new URL("/auth/signin", nextUrl.origin)
+  //   loginUrl.searchParams.set("callbackUrl", nextUrl.pathname)
+  //   return Response.redirect(loginUrl)
+  // }
 
   // Allow access to private routes for authenticated users
   return NextResponse.next()
