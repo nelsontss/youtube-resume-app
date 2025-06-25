@@ -81,7 +81,7 @@ export default function ResultsDisplay({ isProcessing, videoData, error }: Resul
                 Duration: {videoData.duration} min
               </div>
               <Badge variant="secondary" className="text-xs">
-                ID: {videoData.id.slice(-8)}
+                ID: {videoData.video_id}
               </Badge>
             </div>
             </div>

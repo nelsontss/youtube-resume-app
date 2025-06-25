@@ -11,12 +11,12 @@ import Script from "next/script";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "My App",
-  description: "My App description",
+  title: "Youtube Video Summarizer",
+  description: "A free tool to summarize YouTube videos quickly and easily.",
   twitter: {
     card: 'summary_large_image',
-    title: 'My App',
-    description: 'My App description',
+    title: 'Youtube Video Summarizer',
+    description: 'A free tool to summarize YouTube videos quickly and easily.',
     creator: '@nelsontss_en',
     creatorId: '1467726470533754880',
     site: '@nelsontss_en',
@@ -26,11 +26,11 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'My App',
-    description: 'My App description',
-    type: 'article',
-    publishedTime: '2024-07-03T00:00:00.000Z',
-    authors: ['Nelson Sousa'],
+    title: 'Youtube Video Summarizer',
+    description: 'A free tool to summarize YouTube videos quickly and easily.',
+    type: 'website',
+    url: process.env.APP_URL,
+    siteName: 'Youtube Video Summarizer',
   },
 };
 

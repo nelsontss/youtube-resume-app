@@ -63,6 +63,7 @@ export async function POST(request: NextRequest) {
     // Return the data in the expected format
     return NextResponse.json({
       id: data.id || "unknown",
+      video_id: data.video_id || "unknown",
       title: data.title || "Video Summary", 
       duration: data.duration || "Unknown",
       resume: data.resume || "Summary not available"
