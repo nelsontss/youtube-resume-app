@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import { useEffect, useState, useCallback } from "react"
+import { useEffect, useState, useCallback, useMemo } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Sparkles, Zap } from "lucide-react"
@@ -23,7 +23,8 @@ export function LoadingBar({
   const [currentStage, setCurrentStage] = useState("")
   const [isCompleting, setIsCompleting] = useState(false)
 
-  const stages = [
+  // Memoize stages to prevent unnecessary re-renders
+  const stages = useMemo(() => [
     { threshold: 10, message: "Fetching video data..." },
     { threshold: 25, message: "Extracting audio transcript..." },
     { threshold: 45, message: "Analyzing content structure..." },
@@ -32,7 +33,7 @@ export function LoadingBar({
     { threshold: 92, message: "Formatting markdown..." },
     { threshold: 98, message: "Finalizing output..." },
     { threshold: 100, message: "Complete!" },
-  ]
+  ], [])
 
   const updateStage = useCallback(
     (currentProgress: number) => {
