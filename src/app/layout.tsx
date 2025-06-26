@@ -11,6 +11,7 @@ import StructuredData from "@/components/seo/structured-data";
 import { generateSEOMetadata } from "@/components/seo/meta-tags";
 import Script from "next/script";
 import { shouldShowAds } from "@/lib/ad-config";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -85,6 +86,7 @@ export default function RootLayout({
         <GoogleAnalytics />
         <Analytics />
         <PerformanceMonitor />
+        <SpeedInsights />
         {adsEnabled && (
           <Script data-cfasync="false" type='text/javascript' src='//pl26994585.profitableratecpm.com/72/df/2f/72df2ff5cc6a33cc021c764605454547.js' />
         )}
