@@ -7,6 +7,7 @@ import Providers from "@/components/utils/providers";
 import { Analytics } from "@vercel/analytics/react"
 import GoogleAnalytics from "@/components/utils/google-analytics";
 import Script from "next/script";
+import { shouldShowAds } from "@/lib/ad-config";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -39,12 +40,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const adsEnabled = shouldShowAds()
+
   return (
     <html lang="en" className={inter.className}>
       <head>
         <GoogleAnalytics />
         <Analytics />
-        <Script data-cfasync="false" type='text/javascript' src='//pl26994585.profitableratecpm.com/72/df/2f/72df2ff5cc6a33cc021c764605454547.js' />
+        {adsEnabled && (
+          <Script data-cfasync="false" type='text/javascript' src='//pl26994585.profitableratecpm.com/72/df/2f/72df2ff5cc6a33cc021c764605454547.js' />
+        )}
       </head>
       <body>
         <Providers>

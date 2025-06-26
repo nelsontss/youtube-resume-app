@@ -10,6 +10,7 @@ type BannerProps = {
 
 export default function Banner({ bannerKey, height, width }: BannerProps) {
   const banner = useRef<HTMLDivElement>(null)
+  
   const atOptions = {
     key: bannerKey,
     format: 'iframe',

@@ -9,7 +9,11 @@ import ErrorModal from "@/components/error-modal"
 import { LoadingBar } from "@/components/loading-bar"
 import { useVideoContext } from "@/contexts/video-context"
 
-export default function VideoForm() {
+interface VideoFormProps {
+  adsEnabled?: boolean // Optional prop - defaults to false for safety
+}
+
+export default function VideoForm({ adsEnabled = false }: VideoFormProps) {
   const { 
     url, 
     setUrl, 
@@ -31,12 +35,17 @@ export default function VideoForm() {
   })
 
   const handleShadowButtonClick = () => {
-    // Open ad link in new tab
-    window.open('https://www.profitableratecpm.com/ikjk0fmkkr?key=8a1f4a7e92e52d02e33ef283f2edb368', '_blank')
-    // Show real button after a short delay
-    setTimeout(() => {
+    if (adsEnabled) {
+      // Open ad link in new tab only if ads are enabled
+      window.open('https://www.profitableratecpm.com/ikjk0fmkkr?key=8a1f4a7e92e52d02e33ef283f2edb368', '_blank')
+      // Show real button after a short delay
+      setTimeout(() => {
+        setShowRealButton(true)
+      }, 500)
+    } else {
+      // If ads are disabled, show real button immediately
       setShowRealButton(true)
-    }, 500)
+    }
   }
 
   const closeErrorModal = () => {

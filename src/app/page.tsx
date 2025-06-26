@@ -1,4 +1,5 @@
 "use server"
+
 import React from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -6,10 +7,13 @@ import { Youtube, Sparkles, FileText, Zap } from "lucide-react"
 import { VideoProvider } from "@/contexts/video-context"
 import VideoFormInput from "@/components/video-form-input"
 import VideoResults from "@/components/video-results"
-import Script from "next/script"
 import Banner from "@/components/banner"
+import AdScript from "@/components/ui/ad-script"
+import { shouldShowAds } from "@/lib/ad-config"
 
 export default async function YouTubeSummarizer() {
+  const adsEnabled = shouldShowAds()
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       {/* Header */}
@@ -52,11 +56,13 @@ export default async function YouTubeSummarizer() {
             {/* Input Form and Results */}
             <VideoProvider>
               <div className="space-y-8">
-                <VideoFormInput />
+                <VideoFormInput adsEnabled={adsEnabled} />
                 {/* Sidebar with Ads - Mobile/Tablet View */}
                 <div className="lg:hidden space-y-6">
                   {/* Sidebar Ad 1 */}
-                  <Banner bannerKey="7554d80bb458191c9d5e609fe384750c" height={60} width={468} />
+                  {adsEnabled && (
+                    <Banner bannerKey="7554d80bb458191c9d5e609fe384750c" height={60} width={468} />
+                  )}
                 </div>
                 <VideoResults />
               </div>
@@ -66,7 +72,9 @@ export default async function YouTubeSummarizer() {
           {/* Sidebar with Ads - Desktop View */}
           <div className="hidden lg:block lg:col-span-1 space-y-6 w-[300px]">
             {/* Sidebar Ad 1 */}
-            <Banner bannerKey="d342950369c684af192e3b3c81921af8" height={250} width={300} />
+            {adsEnabled && (
+              <Banner bannerKey="d342950369c684af192e3b3c81921af8" height={250} width={300} />
+            )}
             {/* Features */}
             <Card className="bg-gradient-to-br from-red-50 to-orange-50 border-red-200">
               <CardHeader>
@@ -106,8 +114,13 @@ export default async function YouTubeSummarizer() {
         </div>
 
         {/* Bottom Banner Ad */}
-        <Script data-cfasync="false" src="//pl26991633.profitableratecpm.com/b170a06f6c6722d14afd469eb710b7cc/invoke.js"></Script>
-        <div id="container-b170a06f6c6722d14afd469eb710b7cc"></div>
+        {adsEnabled && (
+          <AdScript 
+            src="//pl26991633.profitableratecpm.com/b170a06f6c6722d14afd469eb710b7cc/invoke.js"
+            data-cfasync="false"
+            containerId="container-b170a06f6c6722d14afd469eb710b7cc"
+          />
+        )}
       </div>
       {/* Footer */}
       <footer className="bg-white border-t mt-16">
@@ -117,7 +130,13 @@ export default async function YouTubeSummarizer() {
           </div>
         </div>
       </footer>
-      <Script data-cfasync="false" type='text/javascript' src='//pl26992838.profitableratecpm.com/e6/fe/0e/e6fe0eadd7b19f05967b83dd5adfc4d4.js'></Script>
+      {adsEnabled && (
+        <AdScript 
+          src="//pl26992838.profitableratecpm.com/e6/fe/0e/e6fe0eadd7b19f05967b83dd5adfc4d4.js"
+          data-cfasync="false"
+          type="text/javascript"
+        />
+      )}
     </div>
   )
 }
